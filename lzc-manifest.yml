@@ -1,0 +1,36 @@
+application:
+  subdomain: ducter
+  multi_instance: false
+  public_path:
+    - /
+  upstreams:
+    - location: /
+      # exec 裸应用：系统拉起 ducter 二进制， ducter 自己监听 127.0.0.1:8080
+      backend: http://127.0.0.1:8080/
+      backend_launch_command: /lzcapp/pkg/content/ducter-launcher.sh
+      # web 客户端与设备配对均走 WebSocket
+      fix_websocket_header: true
+
+usage: |
+  Ducter 是个人 AI 伙伴：跑在你自己的盒子（服务器）上，把任务交给
+  Claude Code、Codex 等 Agent 执行，完成或需要你拍板时回到对话找你。
+
+  【首次使用】
+  1. 打开应用，首次启动会自动做环境体检（git 等盒子自带）。
+  2. 安装并登录一个 AI Agent（三选一即可，任务都跑在你自己的账号/密钥上）：
+     - Claude Code：SSH 到盒子进入应用容器，运行 `claude auth login`，
+       在任意设备打开它给的链接登录；
+     - Codex：容器内运行 `codex login --device-auth`，输入显示的设备码；
+     - DeepSeek：把密钥写入容器内 ~/.ducter/keys.env（DEEPSEEK_API_KEY=…），
+       chmod 600。也支持首次打开应用时在「粘贴密钥」里直接填
+       DeepSeek/Kimi/GLM/OpenRouter/Gemini 等任意 OpenAI 兼容 Key。
+  3. 在网页对话里直接给伙伴派活；手机端可通过 `ducter pair` 生成的
+     配对码（10 分钟有效）连接网页客户端。
+
+  【说明】
+  - 任务与对话数据在应用数据目录（/lzcapp/var/home/.ducter），升级不丢。
+  - Agent 凭据同样保存在数据目录内，不会出现在对话里。
+  - 应用只监听容器内回环地址，外部访问一律经懒猫网关鉴权后转发。
+  - 上游 Apache-2.0 开源：https://github.com/wey-gu/ducter
+  - 本应用为 exec 裸应用打包（不引用 Docker 镜像），CI 构建时从上游
+    GitHub Release 下载二进制并校验 SHA256，仓库不存储二进制。

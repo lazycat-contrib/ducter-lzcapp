@@ -1,0 +1,26 @@
+name: Build and publish LazyCat LPK
+
+on:
+  schedule:
+    # 每 6 小时跟随上游 release 自动检查更新（exec 模式，构建时下载二进制）
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: lazycat-ducter
+  cancel-in-progress: false
+
+jobs:
+  lazycat:
+    uses: ca-x/lazycat-github-action/.github/workflows/lazycat.yml@v1
+    with:
+      operation: auto
+      config: .github/lazycat-action.yml
+      versioned-release-asset: true
+    secrets:
+      APPSTORE_URL: ${{ secrets.APPSTORE_URL }}
+      APPSTORE_TOKEN: ${{ secrets.APPSTORE_TOKEN }}

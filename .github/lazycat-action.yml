@@ -1,0 +1,28 @@
+version: 1
+
+project:
+  root: .
+  build_config: lzc-build.yml
+  package_file: package.yml
+  output: .lazycat-build/ducter.lpk
+  target_arch: amd64
+
+update:
+  strategy: publish
+  version_source:
+    type: git
+  sync_license: true
+
+build:
+  toolchains: []
+  run_buildscript: true
+
+stores:
+  official:
+    enabled: false  # 官方商店需 lazycat 交付模式 + LZC_API_TOKEN secret，按需开启
+    skip_if_version_exists: true
+  private:
+    enabled: true
+    skip_if_version_exists: true
+    name: Ducter
+    summary: "个人 AI 伙伴：任务交给 Claude Code/Codex 等 Agent 执行，完成或需要拍板时回到对话（Apache-2.0）。"

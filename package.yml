@@ -1,0 +1,18 @@
+package: community.lazycat.app.ducter
+version: 0.0.77
+name: Ducter
+description: "个人 AI 伙伴：跑在自己的服务器上，把任务交给 Claude Code、Codex 等 Agent 执行，完成或需要拍板时回到对话找你。网页/手机端配对连接，附带的 Agent 跑在你自己的账号上。"
+min_os_version: 1.5.0
+homepage: https://github.com/wey-gu/ducter
+author: wey-gu
+license: Apache-2.0
+permissions:
+  required:
+    - net.internet
+locales:
+  zh:
+    name: Ducter
+    description: "个人 AI 伙伴：跑在自己的服务器上，把任务交给 Claude Code、Codex 等 Agent 执行，完成或需要拍板时回到对话找你。"
+  en:
+    name: Ducter
+    description: "Your personal AI: it runs on your own server, hands work to agents like Claude Code and Codex, and comes back with proof when done or when a decision matters."
